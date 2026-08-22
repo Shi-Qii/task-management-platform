@@ -7,7 +7,8 @@
 ```
 /backend      Spring Boot 3 後端
 /frontend     Vue 3 + Vuetify 前端
-/docs         OpenAPI 規格、領域模型說明
+/docs         OpenAPI 規格快照、領域模型說明
+/scripts      示範資料重置腳本
 /ai-notes     AI 使用紀錄（依前端/後端/資料庫分類）
 ```
 
@@ -45,10 +46,22 @@ npm run dev
 
 ## OpenAPI 規格
 
-後端使用 [springdoc-openapi](https://springdoc.org/) 自動產生 OpenAPI 規格，後端啟動後可從以下位置存取：
+後端使用 [springdoc-openapi](https://springdoc.org/) 自動產生 OpenAPI 規格。
+
+**不啟動專案也能看**：[`docs/openapi.json`](docs/openapi.json) 是從執行中的後端匯出的規格快照，已納入版控，可直接閱讀或貼到 [Swagger Editor](https://editor.swagger.io/) 檢視。
+
+**後端啟動後**可從以下位置存取即時規格：
 
 - OpenAPI JSON：`http://localhost:8080/v3/api-docs`
 - Swagger UI：`http://localhost:8080/swagger-ui.html`
+
+規格異動後重新匯出快照：
+
+```bash
+curl -s http://localhost:8080/v3/api-docs | python3 -m json.tool --no-ensure-ascii > docs/openapi.json
+```
+
+前端也以這份規格產生 TypeScript 型別（`npm run gen:api`），詳見 [`frontend/README.md`](frontend/README.md)。
 
 ## 領域模型
 
