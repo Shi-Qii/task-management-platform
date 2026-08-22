@@ -62,14 +62,14 @@ export interface components {
         };
         TaskResponse: {
             /** Format: int64 */
-            id?: number;
-            title?: string;
-            description?: string;
-            completed?: boolean;
+            id: number;
+            title: string;
+            description?: string | null;
+            completed: boolean;
             /** Format: date-time */
-            createdAt?: string;
+            createdAt: string;
             /** Format: date-time */
-            updatedAt?: string;
+            updatedAt: string;
         };
     };
     responses: never;

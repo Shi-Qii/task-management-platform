@@ -7,10 +7,11 @@
 - **為什麼用 AI**：產生樣板設定、確認 Vuetify 在 Vite 專案的標準接法。
 - **檔案**：`vite.config.ts`、`src/main.ts`
 
-## #2 API contract 型別
-- **做了什麼**：依後端提供的 `/api/tasks` 規格手寫 `Task` / `TaskRequest`，並在檔案內註明後端啟動後改用 `npm run gen:api`（openapi-typescript 讀 `/v3/api-docs`）產生型別的替換方式。
-- **為什麼用 AI**：把規格文件轉成 TypeScript 型別的樣板工作。
-- **檔案**：`src/types/task.ts`
+## #2 API contract 型別（由 OpenAPI 規格產生）
+- **做了什麼**：先依規格文件手寫 `Task` / `TaskRequest` 讓畫面能先做；後端啟動後執行 `npm run gen:api`（openapi-typescript 讀 `/v3/api-docs`）產生 `src/types/api.d.ts`，`types/task.ts` 改為直接使用產生的 schema，前端不再有任何手寫的 API 型別。
+- **過程中的調整**：第一版 spec 因為 DTO 缺少標註，response 欄位全部產成 optional，前端一度需要用 `Required<Omit<...>>` 收斂；回報後端加上 `@Schema(requiredMode = REQUIRED)` 與 `nullable = true` 後重跑產生器，該 workaround 已移除。
+- **為什麼用 AI**：把規格轉成型別的樣板工作，以及判讀產生型別與實際回傳形狀的落差。
+- **檔案**：`src/types/task.ts`、`src/types/api.d.ts`（產生物，已納入版控）
 
 ## #3 Spring Boot 錯誤格式處理
 - **做了什麼**：定義 `ApiError` 與 Spring 預設錯誤 body 的解析（優先取 `errors[].defaultMessage`，其次 `message`），並在 axios 攔截器統一轉換；連不上後端時給明確提示。
@@ -56,3 +57,9 @@
 - **做了什麼**：撰寫 `/frontend/README.md`，說明啟動方式、mock 與真實 API 的切換、以及從後端 OpenAPI 產生型別的指令。
 - **為什麼用 AI**：產生文件草稿。
 - **檔案**：`frontend/README.md`
+
+## #12 前後端整合驗證
+- **做了什麼**：後端啟動後逐項驗證整合：以帶 `Origin` 的 preflight 確認 CORS（`http://localhost:5173` 的 GET/POST/PUT/PATCH/DELETE 皆放行，其他 origin 回 403）；比對 `/v3/api-docs` 的六個 endpoint 與狀態碼跟前端呼叫一致；把後端真實回傳的 400／404 錯誤 body 餵進前端的 `messageFromSpringError`，確認畫面顯示的是後端的 `errors[].defaultMessage`（`title is required`）與 `message`（`Task 999999 not found`）。
+- **為什麼用 AI**：設計不依賴瀏覽器也能驗證的檢查方式，並解讀 CORS preflight 結果。
+- **檔案**：無（驗證流程，非程式碼）
+

@@ -36,12 +36,16 @@ npm run preview      # 預覽打包結果
 npm run gen:api      # 讀 http://localhost:8080/v3/api-docs → src/types/api.d.ts
 ```
 
-產生後把 `src/types/task.ts` 內手寫的 interface 換成規格產生的型別即可：
+`src/types/api.d.ts` 是產生物，已納入版控；`src/types/task.ts` 直接使用它，前端沒有任何手寫的 API 型別：
 
 ```ts
 import type { components } from './api'
+
 export type Task = components['schemas']['TaskResponse']
+export type TaskRequest = components['schemas']['TaskRequest']
 ```
+
+後端 DTO 有標註 `@Schema(requiredMode = REQUIRED)` 與 `nullable = true`，因此產生的型別欄位必填／可為 null 都與實際回傳一致。
 
 Swagger UI：`http://localhost:8080/swagger-ui.html`
 
@@ -61,7 +65,8 @@ src/
     TaskList.vue
     TaskFormDialog.vue   # 新增與編輯共用
     ConfirmDialog.vue
-  types/task.ts      # API contract 型別
+  types/task.ts      # 由 api.d.ts 衍生的 contract 型別
+  types/api.d.ts     # npm run gen:api 產生（來自後端 OpenAPI 規格）
   App.vue
 ```
 
