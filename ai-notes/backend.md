@@ -17,3 +17,7 @@
 ## #4
 **做了什麼**：`pom.xml` 依賴設定（Spring Boot 3.4.0 parent、springdoc、lombok、postgresql driver）。
 **為什麼用 AI**：確認各依賴版本相容性，並手動撰寫（因為 start.spring.io 已不提供 Spring Boot 3.x 選項，改為手動組 pom.xml）。
+
+## #5
+**做了什麼**：在 `TaskResponse` 加上 `@Schema` 註解，明確標示 `id`/`title`/`completed`/`createdAt`/`updatedAt` 為必填、`description` 為可為 null，讓 OpenAPI 規格更精確（原本 springdoc 預設會把所有欄位標成 optional）。
+**為什麼用 AI**：前端串接後回報 spec 欄位都是 optional 造成型別產生不夠精確，請 AI 協助修正 DTO 註解。
