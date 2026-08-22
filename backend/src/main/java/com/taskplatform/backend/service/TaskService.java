@@ -21,7 +21,7 @@ public class TaskService {
     private final TaskRepository taskRepository;
 
     public List<TaskResponse> findAll() {
-        return taskRepository.findAll().stream()
+        return taskRepository.findAllByOrderByCreatedAtAsc().stream()
                 .map(TaskResponse::new)
                 .toList();
     }

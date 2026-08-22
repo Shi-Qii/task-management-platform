@@ -21,3 +21,11 @@
 ## #5
 **做了什麼**：在 `TaskResponse` 加上 `@Schema` 註解，明確標示 `id`/`title`/`completed`/`createdAt`/`updatedAt` 為必填、`description` 為可為 null，讓 OpenAPI 規格更精確（原本 springdoc 預設會把所有欄位標成 optional）。
 **為什麼用 AI**：前端串接後回報 spec 欄位都是 optional 造成型別產生不夠精確，請 AI 協助修正 DTO 註解。
+
+## #6
+**做了什麼**：`TaskRepository` 加上 `findAllByOrderByCreatedAtAsc()`，`TaskService.findAll()` 改用這個方法，讓任務清單固定依建立時間排序，不會因為修改/切換完成狀態而在畫面上跳動。
+**為什麼用 AI**：前端稽核時發現清單順序跟著資料庫物理順序跑，demo 時會很明顯，請 AI 協助修正。
+
+## #7
+**做了什麼**：寫一支 `scripts/reset-demo-data.sh`，清空 `tasks` 資料表並重新塞入固定的 8 筆示範資料（3 完成/5 待辦），面試前可以重新跑一次回到乾淨狀態。
+**為什麼用 AI**：手動開發測試把種子資料改亂了，需要一個可重複執行的重置方式。
