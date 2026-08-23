@@ -29,3 +29,7 @@
 ## #7
 **做了什麼**：寫一支 `scripts/reset-demo-data.sh`，清空 `tasks` 資料表並重新塞入固定的 8 筆示範資料（3 完成/5 待辦），面試前可以重新跑一次回到乾淨狀態。
 **為什麼用 AI**：手動開發測試把種子資料改亂了，需要一個可重複執行的重置方式。
+
+## #8
+**做了什麼**：`TaskRepository` 把 `findAllByOrderByCreatedAtAsc()` 從方法名稱推導查詢改成明確的 `@Query` JPQL，並加兩個範本方法（`findByIdCustom` 示範 JPQL + `@Param`、`findByCompletedNative` 示範 `nativeQuery = true` 直接寫 SQL，參數故意用數字 0/1 而非 boolean，並在 SQL 裡用 `(:completed <> 0)` 處理 Postgres 沒有整數轉 boolean 隱式轉換的問題）。
+**為什麼用 AI**：開發者習慣工作上明確寫 SQL/JPQL 而非依賴 Spring Data 的方法名稱推導，先準備好範本方便之後現場快速修改；數字參數是配合開發者過去在 MySQL 環境的慣用寫法，但要處理 Postgres 型別系統的差異。
