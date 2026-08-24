@@ -22,3 +22,8 @@ frontend/dist/
 
 # OS
 .DS_Store
+
+# 原始題目文件，僅供本機參考，不進版控
+full-stack-interview-question-v2.md
+full-stack-interview-question-v2_EN.md
+說明.txt
